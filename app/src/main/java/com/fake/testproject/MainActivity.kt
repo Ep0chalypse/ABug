@@ -1,7 +1,7 @@
 package com.fake.testproject
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.fake.testproject.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {

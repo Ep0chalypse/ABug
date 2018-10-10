@@ -1,12 +1,14 @@
 package com.fake.testproject.ui.main
 
-import android.arch.lifecycle.ViewModelProviders
+import android.app.AlertDialog
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.fake.testproject.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.fake.testproject.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -18,13 +20,27 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        val binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        binding.vm = viewModel
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        subscribeUi()
+    }
+
+    private fun subscribeUi() {
+        viewModel.test.observe(this, Observer {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Title")
+            builder.setMessage("Hi")
+            builder.create().show()
+        })
     }
 
 }
